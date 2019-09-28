@@ -1,0 +1,27 @@
+{
+  "name": "node-js-puppeteer",
+  "version": "0.3.0",
+  "description": "node.js express puppeteer on heroku",
+  "engines": {
+    "node": "10.x"
+  },
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "node test.js"
+  },
+  "dependencies": {
+    "express": "^4.15.2",
+    "puppeteer": "^1.20.0"
+  },
+  "devDependencies": {
+    "request": "^2.81.0",
+    "tape": "^4.7.0"
+  },
+  "keywords": [
+    "node",
+    "heroku",
+    "express"
+  ],
+  "license": "MIT"
+}
