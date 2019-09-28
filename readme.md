@@ -1,5 +1,5 @@
 # demo :
-https://secure-forest-49288.herokuapp.com
+https://senner-puppeteer-app.herokuapp.com/foods/?id=specialiteter
 
 # To deploy to heroku:
 - git clone
