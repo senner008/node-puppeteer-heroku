@@ -1,7 +1,7 @@
 {
-  "name": "node-js-puppeteer",
+  "name": "senner-puppeteer",
   "version": "0.3.0",
-  "description": "node.js express puppeteer on heroku",
+  "description": "express puppeteer on heroku",
   "engines": {
     "node": "10.x"
   },
