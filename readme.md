@@ -5,6 +5,7 @@ https://secure-forest-49288.herokuapp.com
 - git clone
 - npm install
 - heroku create APPNAMEHERE
+- heroku buildpacks:add heroku/nodejs
 - heroku buildpacks:add https://github.com/jontewks/puppeteer-heroku-buildpack
 - git push heroku master
 - heroku ps:scale web=1
