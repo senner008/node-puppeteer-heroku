@@ -1,6 +1,6 @@
 # demo :
-https://senner-puppeteer-app.herokuapp.com/foods
-https://senner-puppeteer-app.herokuapp.com/foods/?id=Luksus%20Kapital%20Pizza
+- https://senner-puppeteer-app.herokuapp.com/foods
+- https://senner-puppeteer-app.herokuapp.com/foods/?id=Luksus%20Kapital%20Pizza
 
 
 # To deploy to heroku:
