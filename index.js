@@ -2,37 +2,28 @@ const express = require('express')
 const PORT = process.env.PORT || 5000
 const puppeteer = require('puppeteer');
 
-async function parselist(page, type) {
+async function parselist(page) {
   return await page.evaluate((data) => {
 
-    function findtypelist(foodtype) {
-      var titles = document.querySelectorAll(".menu-list__title");
-
-      return Array.from(titles)
-        .filter(title => {
-          function titlelike(title) {
-            return decodeURIComponent(title.replace(" ", "").toUpperCase().trim());
+    var titles = document.querySelectorAll(".menu-list__title");
+    var obj = {};
+    Array.from(titles).forEach(title => {
+      var lis = Array.from(title.nextElementSibling.nextElementSibling.getElementsByTagName("li"))
+        .map(li => {
+          var findtitle = li.querySelector(".item_title") || li.querySelector(".menu-list__item-title");
+          return {
+            "title": findtitle.innerHTML,
+            "description": li.querySelector(".desc__content").innerHTML,
+            "price": li.querySelector(".menu-list__item-price").innerHTML
           }
-          return titlelike(title.innerHTML).includes(titlelike(foodtype))
-
-        })[0].nextElementSibling.nextElementSibling;
-    }
-    var typelist = Array.from(findtypelist(data.type).getElementsByTagName("li"));
-
-    return typelist
-      .map(item => {
-        return {
-          title: item.querySelector(".item_title").innerHTML,
-          description: item.querySelector(".desc__content").innerHTML,
-          price: item.querySelector(".menu-list__item-price").innerHTML
-        }
-      });
-  }, {
-    type
+        });
+      obj[title.innerHTML] = lis;
+    });
+    return [obj];
   })
 };
 
-async function run(type) {
+async function run() {
   var browser;
   try {
     browser = await puppeteer.launch({
@@ -40,15 +31,19 @@ async function run(type) {
     });
     const page = await browser.newPage();
     await page.goto('https://billundpizza.dk/menu/');
-    var list = await parselist(page, type);;
-  } catch(err) {
+
+    var list = await parselist(page);;
+
+  } catch (err) {
     if (browser) await browser.close();
-      throw "parsing failed";
+    throw "parsing failed";
   }
   // should I close the browser???
   await browser.close();
   return list;
 };
+
+
 
 express()
   .get('/foods', async function get(req, res) {
@@ -56,7 +51,10 @@ express()
       "Content-Type": "application/json"
     });
     try {
-      var list = await run(req.query.id)
+      var list = await run()
+      if (req.query.id in list[0]) {
+        list = list[0][req.query.id];
+      }
     } catch (err) {
       res.end(JSON.stringify({err: err}))
     }
