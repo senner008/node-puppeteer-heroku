@@ -1,8 +1,24 @@
 const express = require('express')
 const PORT = process.env.PORT || 5000
 const puppeteer = require('puppeteer');
+const cmdInput = process.argv[2];
+const mockfile = process.argv[3];
 
-const url = "https://billundpizza.dk/menu/";
+console.log("--help to show help")
+var destination;
+if (cmdInput && cmdInput.trim().toUpperCase() == "--HELP") {
+  console.log("To mock a file use --mock [html filename]")
+  console.log("example with mock-index.html : node index --mock mock-index")
+  return;
+}
+else if (cmdInput && cmdInput.trim().toUpperCase() === "--MOCK") {
+  if (!mockfile) {
+    throw "missing mock file destination. use --help"
+  }
+   destination = 'file://' + __dirname + '/' + mockfile.trim() + '.html';
+} else {
+   destination = "https://billundpizza.dk/menu/"
+}
 
 async function parselist(page) {
   return await page.evaluate((data) => {
@@ -42,7 +58,10 @@ async function run() {
           req.continue();
       }
     });
-    await page.goto(url);
+    // var contentHtml = fs.readFileSync('file://C:/_gits2/node-puppeteer-heroku/index.html', 'utf8');
+    // await page.setContent(contentHtml);  
+
+   await page.goto(destination);
 
     var list = await parselist(page);;
 
@@ -63,7 +82,7 @@ function decode (s) {
 express()
   .get('/foods', async function get(req, res) {
     res.writeHead(200, {
-      "Content-Type": "application/json"
+      "Content-Type": "application/json; charset=utf-8"
     });
     try {
       var list = await run()
