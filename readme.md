@@ -1,4 +1,4 @@
-# demo :
+# Demo:
 - https://senner-puppeteer-app.herokuapp.com/foods
 - https://senner-puppeteer-app.herokuapp.com/foods/?id=Luksus%20Kapital%20Pizza
 
@@ -12,3 +12,7 @@
 - git push heroku master
 - heroku ps:scale web=1
 - heroku open
+
+# Todo:
+- Add mock data environment, add mock data test to ci pipeline
+- use iron cache

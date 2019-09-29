@@ -66,6 +66,7 @@ express()
       var list = await run()
       if (req.query.id) {
         list = list[0].foods.filter(f => f.title == req.query.id);
+        throw "invalid query parameter";
       }
     } catch (err) {
       res.end(JSON.stringify({err: err}))
