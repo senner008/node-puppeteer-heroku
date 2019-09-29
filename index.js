@@ -8,7 +8,7 @@ async function parselist(page) {
   return await page.evaluate((data) => {
 
     var titles = document.querySelectorAll(".menu-list__title");
-    var obj = {};
+    var obj = {foods: []};
     Array.from(titles).forEach(title => {
       var lis = Array.from(title.nextElementSibling.nextElementSibling.getElementsByTagName("li"))
         .map(li => {
@@ -19,7 +19,7 @@ async function parselist(page) {
             "price": li.querySelector(".menu-list__item-price").innerHTML
           }
         });
-      obj[title.innerHTML] = lis;
+      obj.foods.push({title : title.innerHTML, content : lis});
     });
     return [obj];
   })
