@@ -2,6 +2,8 @@ const express = require('express')
 const PORT = process.env.PORT || 5000
 const puppeteer = require('puppeteer');
 
+const url = "https://billundpizza.dk/menu/";
+
 async function parselist(page) {
   return await page.evaluate((data) => {
 
@@ -30,7 +32,17 @@ async function run() {
       args: ['--no-sandbox', '--disable-setuid-sandbox', '--disable-dev-shm-usage']
     });
     const page = await browser.newPage();
-    await page.goto('https://billundpizza.dk/menu/');
+    await page.setRequestInterception(true);
+
+    page.on('request', (req) => {
+        if(req.resourceType() === 'image'){
+            req.abort();
+        }
+        else {
+            req.continue();
+        }
+    });
+    await page.goto(url);
 
     var list = await parselist(page);;
 
