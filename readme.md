@@ -14,5 +14,6 @@
 - heroku open
 
 # Todo:
-- Add mock data environment, add mock data test to ci pipeline
+- Add mock data environment - DONE
+- add mock data test to ci pipeline
 - use iron cache

@@ -20,7 +20,7 @@ else if (cmdInput && cmdInput.trim().toUpperCase() === "--MOCK") {
    destination = "https://billundpizza.dk/menu/"
 }
 
-async function parselist(page) {
+async function extractList(page) {
   return await page.evaluate((data) => {
 
     var titles = document.querySelectorAll(".menu-list__title");
@@ -63,7 +63,7 @@ async function run() {
 
    await page.goto(destination);
 
-    var list = await parselist(page);;
+    var list = await extractList(page);;
 
   } catch (err) {
     if (browser) await browser.close();
