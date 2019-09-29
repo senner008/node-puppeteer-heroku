@@ -64,8 +64,8 @@ express()
     });
     try {
       var list = await run()
-      if (req.query.id in list[0]) {
-        list = list[0][req.query.id];
+      if (req.query.id) {
+        list = list[0].foods.filter(f => f.title == req.query.id);
       }
     } catch (err) {
       res.end(JSON.stringify({err: err}))
