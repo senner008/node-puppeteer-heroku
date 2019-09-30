@@ -15,10 +15,18 @@ export default function setRoutes (func) {
       "Content-Type": "application/json; charset=utf-8"
     });
     try {
-      var list = await (process.env.PORT ? client.get('hello') : func()); 
+      var list;
+      if (process.env.PORT) {
+        list = await client.get('hello');
+        list[1] = "retrieved from cache";
+      } else {
+        list = await func();
+      }
       if (!list.value && process.env.PORT) {
           list = await func();
-          await client.set('hello', list, {expires:6000000});
+          var expire = 6000000;
+          await client.set('hello', list, {expires:expire});
+          list[1] = "setting cache to expire in " + expire;
       }
       if (req.query.id) {
         list = list[0].foods.filter(f => decode(f.title) == decode(req.query.id));
