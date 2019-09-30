@@ -6,7 +6,7 @@ function decode(s) {
   }
   
 export default function setRoutes (func) {
- express()
+ var server = express()
   .get('/foods', async function get(req, res) {
     res.writeHead(200, {
       "Content-Type": "application/json; charset=utf-8"
@@ -23,5 +23,5 @@ export default function setRoutes (func) {
     res.end(JSON.stringify(list));
   })
   .listen(PORT, () => console.log(`Listening on ${PORT}`));
-
+  server.timeout = 100000;
 }
