@@ -4,7 +4,6 @@ var memjs = require('memjs');
 var client = memjs.Client.create();
 
 
-
 function decode(s) {
     return decodeURIComponent(s.toUpperCase().trim());
   }
@@ -17,14 +16,12 @@ export default function setRoutes (func) {
     });
     try {
     
-      var list;
-      client.get('hello', async function(err, val, flags) {
-        if (val) list = val;
-        else {
-            list = await func();
-            client.set('hello', list, {expires:6000000});
-        }
-        }); 
+    
+      var list = await client.get('hello'); 
+      if (!list) {
+          list = await func();
+          await client.set('hello', list, {expires:6000000});
+      }
       if (req.query.id) {
         list = list[0].foods.filter(f => decode(f.title) == decode(req.query.id));
         if (list.length === 0) throw "invalid query parameter";
