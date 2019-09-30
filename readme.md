@@ -16,6 +16,7 @@
 # Todo:
 - Add mock data environment - DONE
 - add github actions CI - DONE
+- use nodemon with webpack
 - use iron cache
 
 # To run
