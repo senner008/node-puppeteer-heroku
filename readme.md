@@ -15,9 +15,9 @@
 
 # Todo:
 - Add mock data environment - DONE
-- add mock data test to ci pipeline
+- add github actions CI - DONE
 - use iron cache
 
 # To run
 - npm run dev (to bundle)
-- npm run start / npm run start-mock (to run in second bash)
+- npm run start / npm run start-mock (run in second bash)
