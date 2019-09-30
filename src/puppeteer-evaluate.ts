@@ -1,3 +1,5 @@
+import { Tracing } from "trace_events";
+
 interface food {
     title : string;
     description : string | string[];
@@ -13,10 +15,25 @@ interface foodsObject {
     foods : foodtype[];
 }
 
-export default async function extractList(page) {
-    return await page.evaluate((data) : [foodsObject] => {
+export class Selectors {
+    MenuTitle : string;
+    Title : string;
+    TitleAlt : string;
+    Content : string;
+    Price : string;
+    constructor (menuTitle: string, title: string, titleAlt: string, content: string, price: string) {
+        this.MenuTitle = menuTitle;
+        this.Title = title;
+        this.TitleAlt = titleAlt;
+        this.Content = content;
+        this.Price = price;
+    }
+}
 
-        const titles : NodeListOf<HTMLHeadingElement> = document.querySelectorAll(".menu-list__title");
+export async function extractList(page, selectors) : Promise<[foodsObject]> {
+    return await page.evaluate((data: Selectors) : [foodsObject] => {
+
+        const titles : NodeListOf<HTMLHeadingElement> = document.querySelectorAll(data.MenuTitle);
         var obj : foodsObject = { foods: [] };
         Array.from(titles).forEach(title => {
             const food : food[] = Array.from(title.nextElementSibling.nextElementSibling.getElementsByTagName("li"))
@@ -29,14 +46,14 @@ export default async function extractList(page) {
                     }
   
                     return {
-                        "title": findtitle(li.querySelector<HTMLSpanElement>(".item_title"), li.querySelector<HTMLHeadingElement>(".menu-list__item-title")),
-                        "description": findElems(li.querySelectorAll<HTMLParagraphElement>(".desc__content")),
-                        "price": findElems(li.querySelectorAll<HTMLSpanElement>(".menu-list__item-price"))
-                    } as food
+                        "title": findtitle(li.querySelector<HTMLSpanElement>(data.Title), li.querySelector<HTMLHeadingElement>(data.TitleAlt)),
+                        "description": findElems(li.querySelectorAll<HTMLParagraphElement>(data.Content)),
+                        "price": findElems(li.querySelectorAll<HTMLSpanElement>(data.Price))
+                    }
                 });
             const hasObject : boolean = obj.foods.some(s => s.title == title.innerHTML);   
             obj.foods.push({ title: (hasObject ? 'Familie-' + title.innerHTML : title.innerHTML), content: food });
         });
         return [obj];
-    })
+    }, selectors);
 };
