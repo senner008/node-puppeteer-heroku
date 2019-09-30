@@ -9,7 +9,7 @@ var destination;
 if (cmdInput && cmdInput.trim().toUpperCase() == "--HELP") {
   console.log("To mock a file use --mock [html filename]")
   console.log("example with mock-index.html : node index --mock mock-index")
-  return;
+  throw "exiting...";
 }
 else if (cmdInput && cmdInput.trim().toUpperCase() === "--MOCK") {
   if (!mockfile) {
