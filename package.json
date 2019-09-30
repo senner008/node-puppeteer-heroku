@@ -7,7 +7,7 @@
   },
   "main": "index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "node dist/bundle.js",
     "test": "node test.js",
     "build": "webpack"
   },
