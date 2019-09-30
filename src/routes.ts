@@ -15,10 +15,8 @@ export default function setRoutes (func) {
       "Content-Type": "application/json; charset=utf-8"
     });
     try {
-    
-    
-      var list = await client.get('hello'); 
-      if (!list) {
+      var list = await (process.env.PORT ? client.get('hello') : func()); 
+      if (!list.value && process.env.PORT) {
           list = await func();
           await client.set('hello', list, {expires:6000000});
       }
@@ -27,7 +25,6 @@ export default function setRoutes (func) {
         if (list.length === 0) throw "invalid query parameter";
       }
    
-    
     } catch (err) {
       res.end(JSON.stringify({ err: err }))
     }
