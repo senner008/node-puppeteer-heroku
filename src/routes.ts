@@ -24,7 +24,7 @@ export default function setRoutes (func) {
       }
       if (!list.value && process.env.PORT) {
           list = await func();
-          var expire = 6000000;
+          var expire = 100000;
           await client.set('hello', list, {expires:expire});
           list[1] = "setting cache to expire in " + expire;
       }
