@@ -7,13 +7,15 @@
   },
   "main": "index.js",
   "scripts": {
+    "dev": "webpack --env.development -w",
     "start": "node dist/bundle.js",
-    "test": "node test.js",
-    "build": "webpack"
+    "start-mock": "node dist/bundle.js --mock mock-index",
+    "build": "webpack --env.production"
   },
   "dependencies": {
     "@types/node": "^12.7.8",
     "express": "^4.15.2",
+    "find-parent-dir": "^0.3.0",
     "puppeteer": "^1.20.0"
   },
   "devDependencies": {

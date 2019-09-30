@@ -3,6 +3,7 @@ const PORT = process.env.PORT || 5000
 const puppeteer = require('puppeteer');
 const cmdInput = process.argv[2];
 const mockfile = process.argv[3];
+console.log(__dirname)
 
 console.log("--help to show help")
 var destination;
