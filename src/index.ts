@@ -3,6 +3,7 @@ import extractList from "./puppeteer-evaluate"
 import { cmdlineOptions} from "./processargv";
 import setRoutes from "./routes";
 
+
 async function run() {
   var browser;
   try {
