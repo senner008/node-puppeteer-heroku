@@ -1,0 +1,15 @@
+name: Node-app-puppeteer CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v1
+    - name: project setup
+      run: npm install
+    - name: compile and minify for production
+      run: npm run build
