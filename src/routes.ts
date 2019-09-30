@@ -15,12 +15,15 @@ export default function setRoutes (func) {
     try {
       var memcachier : string = "local";
       var list;
+      var listcopy;
       if (process.env.PORT) {
         list = await client.get('hello');
+        listcopy = JSON.stringify(list);
         memcachier = "retrieved from cache";
       } else {
         list = await func();
       }
+      
       if ((!Array.isArray(list)) && process.env.PORT) {
           list = await func();
           var expire = 100000;
@@ -35,6 +38,7 @@ export default function setRoutes (func) {
         "Content-Type": "application/json; charset=utf-8",
         "Memcachier" : memcachier
       });
+      list[1] = listcopy;
    
     } catch (err) {
       res.end(JSON.stringify({ err: err }))
