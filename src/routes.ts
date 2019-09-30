@@ -22,7 +22,7 @@ export default function setRoutes (func) {
       } else {
         list = await func();
       }
-      if (!list.value && process.env.PORT) {
+      if ((!list || !list.value) && process.env.PORT) {
           list = await func();
           var expire = 100000;
           await client.set('hello', list, {expires:expire});
