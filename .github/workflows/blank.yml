@@ -11,5 +11,5 @@ jobs:
     - uses: actions/checkout@v1
     - name: project setup
       run: npm install
-    - name: compile and minify for production
-      run: npm run build
+    # - name: compile and minify for production
+    #   run: npm run build
