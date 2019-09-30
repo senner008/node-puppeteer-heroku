@@ -1,11 +1,9 @@
 const express = require('express')
 const PORT = process.env.PORT || 5000
 
-
 function decode(s) {
     return decodeURIComponent(s.toUpperCase().trim());
   }
-  
   
 export default function setRoutes (func) {
  express()
