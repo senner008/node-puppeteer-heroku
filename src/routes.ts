@@ -3,6 +3,12 @@ const PORT = process.env.PORT || 5000
 var memjs = require('memjs');
 var client = memjs.Client.create();
 
+var mc = memjs.Client.create(process.env.MEMCACHIER_SERVERS, {
+    failover: true,  // default: false
+    timeout: 1,      // default: 0.5 (seconds)
+    keepAlive: true  // default: false
+  })
+
 
 function decode(s) {
     return decodeURIComponent(s.toUpperCase().trim());
@@ -17,7 +23,7 @@ export default function setRoutes (func) {
       var list;
       var listcopy;
       if (process.env.PORT) {
-        list = await client.get('hello');
+        list = await mc.get('hello');
         listcopy = JSON.stringify(list);
         memcachier = "retrieved from cache";
       } else {
@@ -27,7 +33,7 @@ export default function setRoutes (func) {
       if ((!Array.isArray(list)) && process.env.PORT) {
           list = await func();
           var expire = 100000;
-          await client.set('hello', list, {expires:expire});
+          await mc.set('hello', list, {expires:expire});
           memcachier = "setting cache to expire in " + expire;
       }
       if (req.query.id) {
