@@ -34,17 +34,16 @@ export async function extractList(page, selectors) : Promise<[foodsObject]> {
     return await page.evaluate((data: Selectors) : [foodsObject] => {
 
         const titles : NodeListOf<HTMLHeadingElement> = document.querySelectorAll(data.MenuTitle);
-        var obj : foodsObject = { foods: [] };
+        const obj : foodsObject = { foods: [] };
+        const findtitle  = (sel1 : HTMLSpanElement, sel2 : HTMLHeadingElement ) : string => (sel1 || sel2).innerHTML;
+        const findElems = (sel: NodeListOf<HTMLParagraphElement | HTMLSpanElement>) : string[] | string => {
+            var xelem = Array.from(sel);
+            return xelem.length > 1 ? xelem.map(el => el.innerHTML) : xelem[0].innerHTML
+        }
+
         Array.from(titles).forEach(title => {
             const food : food[] = Array.from(title.nextElementSibling.nextElementSibling.getElementsByTagName("li"))
                 .map(li => {
-                    const findtitle  = (sel1 : HTMLSpanElement, sel2 : HTMLHeadingElement ) : string => (sel1 || sel2).innerHTML;
-
-                    var findElems = (sel: NodeListOf<HTMLParagraphElement | HTMLSpanElement>) : string[] | string => {
-                        var xelem = Array.from(sel);
-                        return xelem.length > 1 ? xelem.map(el => el.innerHTML) : xelem[0].innerHTML
-                    }
-  
                     return {
                         "title": findtitle(li.querySelector<HTMLSpanElement>(data.Title), li.querySelector<HTMLHeadingElement>(data.TitleAlt)),
                         "description": findElems(li.querySelectorAll<HTMLParagraphElement>(data.Content)),
@@ -54,6 +53,7 @@ export async function extractList(page, selectors) : Promise<[foodsObject]> {
             const hasObject : boolean = obj.foods.some(s => s.title == title.innerHTML);   
             obj.foods.push({ title: (hasObject ? 'Familie-' + title.innerHTML : title.innerHTML), content: food });
         });
+        
         return [obj];
     }, selectors);
 };
