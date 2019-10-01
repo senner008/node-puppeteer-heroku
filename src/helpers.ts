@@ -22,7 +22,7 @@ export function writeHead (res) {
 export async function getList (func, req) {
   var list = await func()
   if (req.query.id) {
-    list = list[0].foods.filter(f => decode(f.title) == decode(req.query.id));
+    list = list.filter(f => decode(f.title) == decode(req.query.id));
     if (list.length === 0) throw "invalid query parameter";
   }
   return list;
