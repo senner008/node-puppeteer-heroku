@@ -2,9 +2,9 @@ const puppeteer = require('puppeteer');
 import {extractList, Selectors} from "./puppeteer-evaluate"
 import { cmdlineOptions} from "./processargv";
 import setRoutes from "./routes";
+import {interceptors} from "./helpers"
 
-var selectors = new Selectors(".menu-list__title", ".item_title", ".menu-list__item-title", ".desc__content", ".menu-list__item-price")
-
+var selectors = new Selectors(".menu-list__title", ".item_title", ".menu-list__item-title", ".desc__content", ".menu-list__item-price");
 
 async function run() {
   var browser;
@@ -14,26 +14,14 @@ async function run() {
     });
     const page = await browser.newPage();
     await page.setRequestInterception(true);
-
-    page.on('request', (req) => {
-      if (req.resourceType() == 'stylesheet' || req.resourceType() == 'font' || req.resourceType() == 'image') {
-        req.abort();
-      }
-      else {
-        req.continue();
-      }
-    });
-
+    interceptors(page, ["stylesheet","font","image"]);
     await page.goto(destination);
-
     var list = await extractList(page, selectors);
-
   } catch (err) {
-    if (browser) await browser.close();
     throw "parsing failed";
+  } finally {
+    await browser.close();
   }
-  // should I close the browser???
-  await browser.close();
   return list;
 };
 

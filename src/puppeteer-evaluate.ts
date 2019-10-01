@@ -30,11 +30,11 @@ export class Selectors {
     }
 }
 
-export async function extractList(page, selectors) : Promise<[foodsObject]> {
-    return await page.evaluate((data: Selectors) : [foodsObject] => {
+export async function extractList(page, selectors) : Promise<foodsObject> {
+    return await page.evaluate((data: Selectors) : foodtype[] => {
 
         const titles : NodeListOf<HTMLHeadingElement> = document.querySelectorAll(data.MenuTitle);
-        const obj : foodsObject = { foods: [] };
+        const obj : foodtype[] =  [];
         const findtitle  = (sel1 : HTMLSpanElement, sel2 : HTMLHeadingElement ) : string => (sel1 || sel2).innerHTML;
         const findElems = (sel: NodeListOf<HTMLParagraphElement | HTMLSpanElement>) : string[] | string => {
             var xelem = Array.from(sel);
@@ -50,10 +50,9 @@ export async function extractList(page, selectors) : Promise<[foodsObject]> {
                         "price": findElems(li.querySelectorAll<HTMLSpanElement>(data.Price))
                     }
                 });
-            const hasObject : boolean = obj.foods.some(s => s.title == title.innerHTML);   
-            obj.foods.push({ title: (hasObject ? 'Familie-' + title.innerHTML : title.innerHTML), content: food });
+            const hasObject : boolean = obj.some(s => s.title == title.innerHTML);   
+            obj.push({ title: (hasObject ? 'Familie-' + title.innerHTML : title.innerHTML), content: food });
         });
-        
-        return [obj];
+        return obj;
     }, selectors);
 };
