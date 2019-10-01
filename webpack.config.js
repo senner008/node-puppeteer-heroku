@@ -35,8 +35,7 @@ module.exports = env => {
     },
   };
 
-  if (process.env.NODE_ENV !== 'production') {
-    console.log("hello")
+  if (isDev) {
 
       config.plugins.push(new WebpackShellPlugin({onBuildEnd: ['nodemon dist/bundle.js ' + (process.argv[4] === "--mock" ? "--mock" : "") ]}));
   }
