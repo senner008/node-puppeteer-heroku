@@ -8,8 +8,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "webpack --env.development -w",
-    "start": "nodemon dist/bundle.js",
-    "start-mock": "nodemon dist/bundle.js --mock mock-index",
+    "dev-mock": "webpack --env.development -w --mock mock-index",
     "build": "webpack --env.production"
   },
   "dependencies": {
@@ -26,7 +25,8 @@
     "ts-loader": "^6.2.0",
     "typescript": "^3.6.3",
     "webpack": "^4.41.0",
-    "webpack-cli": "^3.3.9"
+    "webpack-cli": "^3.3.9",
+    "webpack-shell-plugin": "^0.5.0"
   },
   "keywords": [
     "node",

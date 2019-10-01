@@ -1,11 +1,11 @@
 const path = require('path');
-
+var WebpackShellPlugin = require('webpack-shell-plugin');
 
 module.exports = env => {
 
   const isDev = env.development;
 
-  return {
+  var config = {
     entry: './src/index.ts',
     output: {
       path: path.resolve(__dirname, 'dist'),
@@ -20,6 +20,7 @@ module.exports = env => {
         },
       ],
     },
+    plugins : [],
     resolve: {
       extensions: [ '.tsx', '.ts', '.js' ],
     },
@@ -33,4 +34,15 @@ module.exports = env => {
       puppeteer: 'require("puppeteer")'
     },
   };
+
+  if (process.env.NODE_ENV !== 'production') {
+    console.log("hello")
+
+      config.plugins.push(new WebpackShellPlugin({onBuildEnd: ['nodemon dist/bundle.js ' + (process.argv[4] === "--mock" ? "--mock " + process.argv[5] : "") ]}));
+  }
+
+  return config;
 };
+
+
+

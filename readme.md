@@ -4,7 +4,9 @@
 
 
 # To deploy to heroku:
-- git clone
+- install node and npm
+- install heroku cli
+- git clone https://github.com/senner008/node-puppeteer-heroku.git
 - npm install
 - heroku create APPNAMEHERE
 - heroku buildpacks:add heroku/nodejs
@@ -16,9 +18,9 @@
 # Todo:
 - Add mock data environment - DONE
 - add github actions CI - DONE
-- use nodemon with webpack
+- use nodemon with webpack - DONE
 - use iron cache
 
-# To run
-- npm run dev (to bundle)
-- npm run start / npm run start-mock (run in second bash)
+# To run remote or mock data
+- npm run dev 
+- npm run dev-mock
