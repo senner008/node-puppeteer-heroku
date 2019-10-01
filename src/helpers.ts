@@ -19,8 +19,8 @@ export function writeHead (res) {
   });
 }
 
-export async function getList (func, req) {
-  var list = await func()
+export async function getList (func, req, destination) {
+  var list = await func(destination)
   if (req.query.id) {
     list = list.filter(f => decode(f.title) == decode(req.query.id));
     if (list.length === 0) throw "invalid query parameter";

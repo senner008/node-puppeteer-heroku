@@ -1,18 +1,17 @@
 const path = require('path');
 const cmdInput = process.argv[2];
-const mockfile = process.argv[3];
 
 
-export function cmdlineOptions(): string {
-    var destination: string;
+export function cmdlineOptions(destination, mockfile): string {
+    var _destination: string;
     if (cmdInput && cmdInput.trim().toUpperCase() === "--MOCK") {
         if (!mockfile) {
-            throw "missing mock file destination. use --help"
+            throw "missing mock file destination"
         }
-        destination = 'file://' + path.join(__dirname, '../mockfile/') + mockfile.trim() + '.html';
+        _destination = 'file://' + path.join(__dirname, '../mockfile/') + mockfile + '.html';
     } else {
-        destination = "https://billundpizza.dk/menu/"
+        _destination = destination
     }
-    return destination;
+    return _destination;
 }
 

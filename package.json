@@ -8,7 +8,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "webpack --env.development -w",
-    "dev-mock": "webpack --env.development -w --mock mock-index",
+    "dev-mock": "webpack --env.development -w --mock",
     "build": "webpack --env.production"
   },
   "dependencies": {

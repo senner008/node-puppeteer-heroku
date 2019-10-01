@@ -2,6 +2,9 @@
 - https://senner-puppeteer-app.herokuapp.com/foods
 - https://senner-puppeteer-app.herokuapp.com/foods/?id=Luksus%20Kapital%20Pizza
 
+- https://senner-puppeteer-app.herokuapp.com/lunch
+- https://senner-puppeteer-app.herokuapp.com/lunch/?id=Salat%20Pizza
+
 
 # To deploy to heroku:
 - install node and npm

@@ -1,4 +1,3 @@
-import { Tracing } from "trace_events";
 
 interface food {
     title : string;

@@ -1,12 +1,11 @@
 const puppeteer = require('puppeteer');
 import {extractList, Selectors} from "./puppeteer-evaluate"
-import { cmdlineOptions} from "./processargv";
 import setRoutes from "./routes";
 import {interceptors} from "./helpers"
 
 var selectors = new Selectors(".menu-list__title", ".item_title", ".menu-list__item-title", ".desc__content", ".menu-list__item-price");
 
-async function run() {
+async function run(destination) {
   var browser;
   try {
     browser = await puppeteer.launch({
@@ -24,7 +23,5 @@ async function run() {
   }
   return list;
 };
-
-const destination = cmdlineOptions();
 
 setRoutes(run);
