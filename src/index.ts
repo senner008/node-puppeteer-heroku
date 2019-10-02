@@ -15,6 +15,7 @@ async function run(destination) {
     await page.setRequestInterception(true);
     interceptors(page, ["stylesheet","font","image"]);
     await page.goto(destination);
+    page.on('console', msg => console.log('PAGE LOG:', msg.text()));
     var list = await extractList(page, selectors);
   } catch (err) {
     throw "parsing failed";
