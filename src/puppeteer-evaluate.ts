@@ -40,10 +40,10 @@ export async function extractList(page, selectors) : Promise<foodsObject> {
 
         const titles : NodeListOf<HTMLHeadingElement> = document.querySelectorAll(data.MenuTitle);
         const obj : foodtype[] =  [];
-        const findtitle  = (sel1 : HTMLSpanElement, sel2 : HTMLHeadingElement ) : string => (sel1 || sel2).innerHTML;
+        const findtitle  = (sel1 : HTMLSpanElement, sel2 : HTMLHeadingElement ) : string => (sel1 || sel2).innerHTML.trim();
         const findElems = (sel: NodeListOf<HTMLParagraphElement | HTMLSpanElement>) : string[] | string => {
             var xelem = Array.from(sel);
-            return xelem.length > 1 ? xelem.map(el => el.innerHTML) : xelem[0].innerHTML
+            return xelem.length > 1 ? xelem.map(el => el.innerHTML.trim()) : xelem[0].innerHTML.trim()
         }
         function determineNestedArrayLength (obj : food) : food[] | null {
             for (let f in obj) {
@@ -76,8 +76,8 @@ export async function extractList(page, selectors) : Promise<foodsObject> {
                     return foodArray ? divideInArray(foodArray) : foodobj as foodStrict;
                 });
             
-            const hasObject : boolean = obj.some(s => s.title == title.innerHTML);  
-            obj.push({ title: (hasObject ? 'Familie-' + title.innerHTML : title.innerHTML), content: food.flat() });
+            const hasObject : boolean = obj.some(s => s.title == title.innerHTML.trim());  
+            obj.push({ title: (hasObject ? 'Familie-' + title.innerHTML.trim() : title.innerHTML.trim()), content: food.flat() });
         });
         return obj;
     }, selectors);
