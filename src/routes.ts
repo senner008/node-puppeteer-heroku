@@ -1,5 +1,5 @@
 const express = require('express')
-const PORT = process.env.PORT || 5000
+const PORT = process.env.PORT || 1234
 import {writeHead, getList} from "./helpers"
 import { cmdlineOptions} from "./processargv";
 

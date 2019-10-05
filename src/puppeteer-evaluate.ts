@@ -2,13 +2,13 @@
 interface food {
     title : string;
     description : string | string[];
-    price : string | string[];
+    price : number | number[];
 }
 
 interface foodStrict {
     title : string;
     description : string;
-    price : string;
+    price : number;
 }
 
 interface foodtype {
@@ -40,6 +40,14 @@ export async function extractList(page, selectors) : Promise<foodsObject> {
 
         const titles : NodeListOf<HTMLHeadingElement> = document.querySelectorAll(data.MenuTitle);
         const obj : foodtype[] =  [];
+       var extractNumber = (val) => {
+           var getNumber = (val) => Number(val.match(/\d+/)[0])
+           if (Array.isArray(val)) {
+                return val.map(str => getNumber(str))
+           }
+           else return getNumber(val)
+       }
+
         const findtitle  = (sel1 : HTMLSpanElement, sel2 : HTMLHeadingElement ) : string => (sel1 || sel2).innerHTML.trim();
         const findElems = (sel: NodeListOf<HTMLParagraphElement | HTMLSpanElement>) : string[] | string => {
             var xelem = Array.from(sel);
@@ -70,7 +78,7 @@ export async function extractList(page, selectors) : Promise<foodsObject> {
                     const foodobj : food =  {
                         "title": findtitle(li.querySelector<HTMLSpanElement>(data.Title), li.querySelector<HTMLHeadingElement>(data.TitleAlt)),
                         "description": findElems(li.querySelectorAll<HTMLParagraphElement>(data.Content)),
-                        "price": findElems(li.querySelectorAll<HTMLSpanElement>(data.Price))
+                        "price": extractNumber(findElems(li.querySelectorAll<HTMLSpanElement>(data.Price)))
                     }
                     var foodArray = determineNestedArrayLength(foodobj);
                     return foodArray ? divideInArray(foodArray) : foodobj as foodStrict;
