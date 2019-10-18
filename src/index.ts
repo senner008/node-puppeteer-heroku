@@ -15,11 +15,13 @@ async function run(destination) {
     await page.setRequestInterception(true);
     interceptors(page, ["stylesheet","font","image"]);
     await page.goto(destination);
-    page.on('console', msg => console.log('PAGE LOG:', msg.text()));
+    page.on('console', msg => console.log(msg.text()));
     var list = await extractList(page, selectors);
   } catch (err) {
+    console.log(err)
     throw "parsing failed";
   } finally {
+    console.log("finally")
     await browser.close();
   }
   return list;

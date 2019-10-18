@@ -40,13 +40,13 @@ export async function extractList(page, selectors) : Promise<foodsObject> {
 
         const titles : NodeListOf<HTMLHeadingElement> = document.querySelectorAll(data.MenuTitle);
         const obj : foodtype[] =  [];
-       var extractNumber = (val) => {
-           var getNumber = (val) => Number(val.match(/\d+/)[0])
-           if (Array.isArray(val)) {
-                return val.map(str => getNumber(str))
-           }
-           else return getNumber(val)
-       }
+        var extractNumber = (val) => {
+            var getNumber = (val) => Number(val.match(/\d+/)[0])
+            if (Array.isArray(val)) {
+                    return val.map(str => getNumber(str))
+            }
+            else return getNumber(val)
+        }
 
         const findtitle  = (sel1 : HTMLSpanElement, sel2 : HTMLHeadingElement ) : string => (sel1 || sel2).innerHTML.trim();
         const findElems = (sel: NodeListOf<HTMLParagraphElement | HTMLSpanElement>) : string[] | string => {
