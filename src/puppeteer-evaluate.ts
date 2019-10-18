@@ -11,7 +11,6 @@ interface foodStrict {
     price : number;
 }
 
-
 interface foodtype {
     title : string;
     content : foodStrict[];
