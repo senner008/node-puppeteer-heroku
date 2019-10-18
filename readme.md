@@ -22,6 +22,7 @@
 - Add mock data environment - DONE
 - add github actions CI - DONE
 - use nodemon with webpack - DONE
+- enable review apps for pull requests - DONE
 - use iron cache
 
 # To run remote or mock data
