@@ -24,7 +24,7 @@
 - use nodemon with webpack - DONE
 - enable review apps for pull requests - DONE
 - protect master branch - DONE
-- use iron cache
+<!-- - use iron cache -->
 
 # To run remote or mock data
 - npm run dev 
